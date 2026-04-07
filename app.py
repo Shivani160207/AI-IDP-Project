@@ -55,7 +55,21 @@ def home():
     return render_template('form.html')
 @app.route('/login', methods=['GET','POST'])
 def login():
-    return "LOGIN WORKING"
+    error = None
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username, password=password).first()
+
+        if user:
+            session['user'] = username
+            return redirect('/')
+        else:
+            error = "Invalid username or password"
+
+    return render_template('login.html', error=error)
     
 @app.route('/signup', methods=['GET','POST'])
 def signup():
