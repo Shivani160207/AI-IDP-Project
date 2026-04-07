@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Analysis Result</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #f093fb 100%);
+            min-height: 100vh;
+            color: #1f2340;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(38, 34, 89, 0.25);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #5b7cff, #7c4dff, #ff6ec7);
+            color: white;
+            padding: 35px 30px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin: 0 0 10px;
+            font-size: 2.2rem;
+        }
+
+        .hero h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: normal;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            background: linear-gradient(180deg, #ffffff, #f7f8ff);
+            border: 1px solid #e8e9ff;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.08);
+        }
+
+        .section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+            color: #352f73;
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .required {
+            border-top: 5px solid #22c55e;
+        }
+
+        .missing {
+            border-top: 5px solid #ef4444;
+        }
+
+        .courses {
+            border-top: 5px solid #3b82f6;
+        }
+
+        .recommendation {
+            border-top: 5px solid #f59e0b;
+            margin-bottom: 25px;
+        }
+
+        .recommendation p {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        a {
+            color: #5b4dff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .graph-box {
+            text-align: center;
+            background: linear-gradient(180deg, #ffffff, #f9f5ff);
+            border: 1px solid #eadfff;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(150, 80, 255, 0.08);
+        }
+
+        .graph-box h3 {
+            margin-top: 0;
+            color: #4c2f89;
+        }
+
+        .graph-box img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 14px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+            margin-top: 10px;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #5b7cff, #8b5cf6);
+            color: white;
+            padding: 12px 26px;
+            border-radius: 999px;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(91, 124, 255, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .back-btn:hover {
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(91, 124, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="result-card">
+            <div class="hero">
+                <h1>📊 Your Career Analysis</h1>
+                <h2>🎯 Predicted Career: {{ goal }}</h2>
+            </div>
+
+            <div class="content">
+                <div class="grid">
+                    <div class="section required">
+                        <h3>✅ Required Skills</h3>
+                        <ul>
+                            {% for skill in required %}
+                                <li>{{ skill }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="section missing">
+                        <h3>❌ Missing Skills</h3>
+                        <ul>
+                            {% for skill in missing %}
+                                <li>{{ skill }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="section courses">
+                        <h3>📚 Recommended Courses</h3>
+                        <ul>
+                            {% for name, link in courses %}
+                                <li><a href="{{ link }}" target="_blank">{{ name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section recommendation">
+                    <h3>💡 Recommendation</h3>
+                    <p>{{ rec }}</p>
+                </div>
+
+                <div class="graph-box">
+                    <h3>📈 Skill Gap Graph</h3>
+                    <img src="{{ graph }}" alt="Skill Gap Graph">
+                </div>
+
+                <div class="actions">
+                    <a href="/" class="back-btn">⬅ Go Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
