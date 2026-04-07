@@ -55,21 +55,8 @@ def home():
     return render_template('form.html')
 @app.route('/login', methods=['GET','POST'])
 def login():
-    error = None
-    print("Login route hit")
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        user = User.query.filter_by(username=username, password=password).first()
-
-        if user:
-            session['user'] = username
-            return redirect('/')
-        else:
-            error = "Invalid username or password"
-
-    return render_template('login.html', error=error)
+    return "LOGIN WORKING"
+    
 @app.route('/signup', methods=['GET','POST'])
 def signup():
     if request.method == 'POST':
@@ -189,3 +176,4 @@ def result():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
